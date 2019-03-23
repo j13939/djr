@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/dbReadPurchaseOrder" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/dbReadPurchaseOrder" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="dbReadPurchaseOrderInput" type="dbReadPurchaseOrderInput"/>
+   <xs:complexType name="dbReadPurchaseOrderInput">
+      <xs:sequence>
+         <xs:element name="OrderNumber" type="xs:decimal" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="dbReadPurchaseOrderOutputCollection" type="dbReadPurchaseOrderOutputCollection"/>
+   <xs:complexType name="dbReadPurchaseOrderOutputCollection">
+      <xs:sequence>
+         <xs:element name="dbReadPurchaseOrderOutput" type="dbReadPurchaseOrderOutput" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="dbReadPurchaseOrderOutput">
+      <xs:sequence>
+         <xs:element name="ORDERNUMBER" type="xs:decimal" nillable="true"/>
+         <xs:element name="OLDORDERNUMBER" type="xs:decimal" nillable="true"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>

@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="dbReadPurchaseOrder"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/SBProcessPurchaseOrderApplication/SBProcessPurchaseOrderDB/dbReadPurchaseOrder"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/SBProcessPurchaseOrderApplication/SBProcessPurchaseOrderDB/dbReadPurchaseOrder"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:db="http://xmlns.oracle.com/pcbpel/adapter/db/dbReadPurchaseOrder"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="dbReadPurchaseOrder_plt" >
+    <plt:role name="dbReadPurchaseOrder_role" >
+      <plt:portType name="tns:dbReadPurchaseOrder_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/dbReadPurchaseOrder" schemaLocation="dbReadPurchaseOrder.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="dbReadPurchaseOrderInput_msg">
+        <wsdl:part name="dbReadPurchaseOrderInput_msg" element="db:dbReadPurchaseOrderInput"/>
+    </wsdl:message>
+    <wsdl:message name="dbReadPurchaseOrderOutputCollection_msg">
+        <wsdl:part name="dbReadPurchaseOrderOutputCollection" element="db:dbReadPurchaseOrderOutputCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="dbReadPurchaseOrder_ptt">
+        <wsdl:operation name="dbReadPurchaseOrder">
+            <wsdl:input message="tns:dbReadPurchaseOrderInput_msg"/>
+            <wsdl:output message="tns:dbReadPurchaseOrderOutputCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

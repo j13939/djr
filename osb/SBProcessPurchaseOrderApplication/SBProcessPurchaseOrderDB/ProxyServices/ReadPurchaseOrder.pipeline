@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="SBProcessPurchaseOrderDB/WSDL/ProcessPurchaseOrderSyncOSB"/>
+            <con:binding>
+                <con:name>ProcessPurchaseOrderSyncBinding</con:name>
+                <con:namespace>http://xmlns.oracle.com/ProcessPurchaseOrder/ProcessPurchaseOrderSync/ProcessPurchaseOrderSync</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:flow>
+            <con:route-node name="RouteReadPurchaseOrder">
+                <con:context>
+                    <con1:userNsDecl prefix="proc" namespace="http://xmlns.oracle.com/ProcessPurchaseOrder/ProcessPurchaseOrderSync/ProcessPurchaseOrderSync"/>
+                </con:context>
+                <con:actions>
+                    <con2:route>
+                        <con1:id>_ActionId-N3f57fefe.54b2ef89.0.1519643ae93.N7ff8</con1:id>
+                        <con2:service ref="SBProcessPurchaseOrderDB/BusinessServices/dbReadPurchaseOrder" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con2:operation>dbReadPurchaseOrder</con2:operation>
+                        <con2:outboundTransform>
+                            <con3:replace varName="body">
+                                <con1:id>_ActionId-N3f57fefe.54b2ef89.0.1519643ae93.N7fef</con1:id>
+                                <con3:location>
+                                    <con1:xpathText>./proc:process/proc:OrderNumber</con1:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con1:xqueryText>$body/proc:process/proc:OrderNumber</con1:xqueryText>
+                                </con3:expr>
+                            </con3:replace>
+                        </con2:outboundTransform>
+                        <con2:responseTransform>
+                            <con3:replace varName="body">
+                                <con1:id>_ActionId-N3f57fefe.54b2ef89.0.1519643ae93.N7feb</con1:id>
+                                <con3:location>
+                                    <con1:xpathText>./proc:processResp/proc:OldOrderNumber</con1:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con1:xqueryText>$body/proc:processResp/proc:OldOrderNumber</con1:xqueryText>
+                                </con3:expr>
+                            </con3:replace>
+                        </con2:responseTransform>
+                    </con2:route>
+                </con:actions>
+            </con:route-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

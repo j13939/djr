@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/stages/logging/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="SBProcessPurchaseOrder/WSDL/ProcessPurchaseOrderSync"/>
+            <con:binding>
+                <con:name>ProcessPurchaseOrderSyncBinding</con:name>
+                <con:namespace>http://xmlns.oracle.com/ProcessPurchaseOrder/ProcessPurchaseOrderSync/ProcessPurchaseOrderSync</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="request" name="request-a301e8a.N57fa8187.0.151136c8aba.N7efe">
+            <con:stage id="_StageId-a301e8a.N57fa8187.0.151136c8aba.N7efc" name="StageProcessPurchaseOrder">
+                <con:context>
+                    <con2:userNsDecl prefix="proc" namespace="http://xmlns.oracle.com/ProcessPurchaseOrder/ProcessPurchaseOrderSync/ProcessPurchaseOrderSync"/>
+                </con:context>
+                <con:actions>
+                    <con3:wsCallout>
+                        <con2:id>_ActionId-a301e8a.N57fa8187.0.151136c8aba.N7ef8</con2:id>
+                        <con3:service ref="SBProcessPurchaseOrder/BusinessServices/ProcessPurchaseOrderBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:operation>process</con3:operation>
+                        <con3:request>
+                            <con3:body wrapped="false">ReqProcessPurchaseOrder</con3:body>
+                        </con3:request>
+                        <con3:response>
+                            <con3:body wrapped="false">RespProcessPurchaseOrder</con3:body>
+                        </con3:response>
+                        <con3:requestTransform>
+                            <con3:assign varName="ReqProcessPurchaseOrder">
+                                <con2:id>_ActionId-a3000cd.79cc8b82.0.151a19c16a8.N7ffe</con2:id>
+                                <con3:expr>
+                                    <con2:xqueryTransform>
+                                        <con2:resource ref="SBProcessPurchaseOrder/Transformations/InputToReadPurchaseOrder"/>
+                                        <con2:param name="ReadPurchaseOrder">
+                                            <con2:path>$body/*</con2:path>
+                                        </con2:param>
+                                    </con2:xqueryTransform>
+                                </con3:expr>
+                            </con3:assign>
+                        </con3:requestTransform>
+                        <con3:responseTransform>
+                            <con3:ifThenElse>
+                                <con2:id>_ActionId-a301e8a.N57fa8187.0.151136c8aba.N7ee5</con2:id>
+                                <con3:case id="_BranchId-a301e8a.N57fa8187.0.151136c8aba.N7ee4">
+                                    <con3:condition>
+                                        <con2:xqueryText>$RespProcessPurchaseOrder!=''</con2:xqueryText>
+                                    </con3:condition>
+                                    <con3:actions>
+                                        <con3:assign varName="PurchaseOrderResponseValue">
+                                            <con2:id>_ActionId-a301e8a.N57fa8187.0.151136c8aba.N7edf</con2:id>
+                                            <con3:expr>
+                                                <con2:xqueryText>$RespProcessPurchaseOrder/*</con2:xqueryText>
+                                            </con3:expr>
+                                        </con3:assign>
+                                    </con3:actions>
+                                </con3:case>
+                                <con3:default/>
+                            </con3:ifThenElse>
+                        </con3:responseTransform>
+                    </con3:wsCallout>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-a301e8a.N57fa8187.0.151136c8aba.N7efd">
+            <con:stage id="_StageId-a301e8a.N57fa8187.0.151136c8aba.N7efb" name="Stage1">
+                <con:context/>
+                <con:actions/>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="PipelinePairNode">
+                <con:request>request-a301e8a.N57fa8187.0.151136c8aba.N7efe</con:request>
+                <con:response>response-a301e8a.N57fa8187.0.151136c8aba.N7efd</con:response>
+            </con:pipeline-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

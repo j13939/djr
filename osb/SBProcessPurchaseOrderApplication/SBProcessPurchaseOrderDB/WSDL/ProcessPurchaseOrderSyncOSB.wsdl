@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ProcessPurchaseOrderSync" targetNamespace="http://xmlns.oracle.com/ProcessPurchaseOrder/ProcessPurchaseOrderSync/ProcessPurchaseOrderSync"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:client="http://xmlns.oracle.com/ProcessPurchaseOrder/ProcessPurchaseOrderSync/ProcessPurchaseOrderSync" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+                  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	TYPE DEFINITION - List of services participating in this BPEL process
+	The default output of the BPEL designer uses strings as input and 
+	output to the BPEL Process. But you can define or import any XML 
+	Schema type and use them as part of the message types.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <wsp:UsingPolicy wsdl:Required="true" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"/>
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://xmlns.oracle.com/ProcessPurchaseOrder/ProcessPurchaseOrderSync/ProcessPurchaseOrderSync" schemaLocation="../XSD/ProcessPurchaseOrderOSB.xsd"/>
+    </schema>
+  </wsdl:types>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	MESSAGE TYPE DEFINITION - Definition of the message types used as 
+	part of the port type defintions
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <wsdl:message name="ProcessPurchaseOrderSyncRequestMessage">
+    <wsdl:part name="payload" element="client:process"/>
+  </wsdl:message>
+  <wsdl:message name="ProcessPurchaseOrderSyncResponseMessage">
+    <wsdl:part name="payload" element="client:processResp"/>
+  </wsdl:message>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	PORT TYPE DEFINITION - A port type groups a set of operations into
+	a logical service unit.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- portType implemented by the ProcessPurchaseOrderSync BPEL process -->
+  <wsdl:portType name="ProcessPurchaseOrderSync">
+    <wsdl:operation name="process">
+      <wsdl:input message="client:ProcessPurchaseOrderSyncRequestMessage"/>
+      <wsdl:output message="client:ProcessPurchaseOrderSyncResponseMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	PARTNER LINK TYPE DEFINITION
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <plnk:partnerLinkType name="ProcessPurchaseOrderSync">
+    <plnk:role name="ProcessPurchaseOrderSyncProvider" portType="client:ProcessPurchaseOrderSync"/>
+  </plnk:partnerLinkType>
+  <wsdl:binding name="ProcessPurchaseOrderSyncBinding" type="client:ProcessPurchaseOrderSync">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="process">
+      <soap:operation style="document" soapAction="process"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="processpurchaseordersync_client_ep">
+    <wsdl:port name="ProcessPurchaseOrderSync_pt" binding="client:ProcessPurchaseOrderSyncBinding">
+      <soap:address location="http://soalt05.flexagon:7001/soa-infra/services/default/ProcessPurchaseOrderSync/processpurchaseordersync_client_ep"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

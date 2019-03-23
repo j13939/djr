@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con1="http://www.bea.com/wli/sb/stages/publish/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:coreEntry>
+        <con:binding type="Any XML"/>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router>
+        <con:pipeline type="request" name="request-a3000cd.79cc8b82.0.151a19c16a8.N7ec3">
+            <con:stage id="_StageId-a3000cd.79cc8b82.0.151a19c16a8.N7ec1" name="Stage1">
+                <con:context/>
+                <con:actions>
+                    <con1:route>
+                        <con2:id>_ActionId-a3000cd.79cc8b82.0.151a19c16a8.N7ebd</con2:id>
+                        <con1:service ref="SBProcessPurchaseOrder/BusinessServices/ProcessPurchaseOrderJMS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con1:outboundTransform/>
+                    </con1:route>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-a3000cd.79cc8b82.0.151a19c16a8.N7ec2">
+            <con:stage id="_StageId-a3000cd.79cc8b82.0.151a19c16a8.N7ec0" name="Stage1">
+                <con:context/>
+                <con:actions/>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="PipelinePairNode1">
+                <con:request>request-a3000cd.79cc8b82.0.151a19c16a8.N7ec3</con:request>
+                <con:response>response-a3000cd.79cc8b82.0.151a19c16a8.N7ec2</con:response>
+            </con:pipeline-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

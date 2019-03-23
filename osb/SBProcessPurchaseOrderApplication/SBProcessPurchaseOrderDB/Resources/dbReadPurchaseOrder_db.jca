@@ -1,0 +1,11 @@
+<adapter-config name="dbReadPurchaseOrder" adapter="db" wsdlLocation="dbReadPurchaseOrder.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory UIConnectionName="Flex XA Data Source" location="eis/db/ProcessPurchase"/>
+  <endpoint-interaction portType="dbReadPurchaseOrder_ptt" operation="dbReadPurchaseOrder">
+    <interaction-spec className="oracle.tip.adapter.db.DBPureSQLInteractionSpec">
+      <property name="SqlString" value="SELECT ORDERNUMBER, OLDORDERNUMBER FROM PURCHASEORDER WHERE ORDERNUMBER=#OrderNumber"/>
+      <property name="GetActiveUnitOfWork" value="false"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>
